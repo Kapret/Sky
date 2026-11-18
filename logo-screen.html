@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SKY — заставка</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Manrope:wght@500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#2A0B2E;cursor:none}
+.stage{position:fixed;inset:0;display:grid;place-items:center}
+.bg{position:absolute;inset:-25%;filter:blur(8vmin) saturate(125%);transition:opacity 1.4s}
+.blob{position:absolute;border-radius:50%;mix-blend-mode:screen}
+.a{width:70vmax;height:70vmax;left:-15%;top:35%;background:radial-gradient(circle,#F7B733,transparent 62%);animation:d1 14s ease-in-out infinite}
+.b{width:80vmax;height:80vmax;left:15%;top:0;background:radial-gradient(circle,#D4145A,transparent 62%);animation:d2 17s ease-in-out infinite}
+.c{width:70vmax;height:70vmax;right:-20%;top:-15%;background:radial-gradient(circle,#7B2FF7,transparent 62%);animation:d3 19s ease-in-out infinite}
+.d{width:55vmax;height:55vmax;right:0;bottom:-15%;background:radial-gradient(circle,#F06EC0,transparent 62%);animation:d1 21s ease-in-out infinite reverse}
+@keyframes d1{50%{transform:translate(18vw,-14vh) scale(1.2)}}
+@keyframes d2{50%{transform:translate(-14vw,16vh) scale(.85)}}
+@keyframes d3{50%{transform:translate(-20vw,12vh) scale(1.15)}}
+/* hotel scene: concentric triangle tunnel */
+.tunnel{position:absolute;inset:0;opacity:0;transition:opacity 1.2s;background:#6E0F2E}
+.tunnel.on{opacity:1}
+.tunnel svg{width:100%;height:100%}
+.tunnel g{transform-origin:50% 55%;animation:zoom 6s linear infinite}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.6)}}
+.word{position:relative;z-index:2;font-family:"Unbounded",sans-serif;font-weight:900;color:#fff;line-height:1;letter-spacing:-.01em;font-size:min(26vw,40vh);white-space:nowrap;text-shadow:0 2vmin 8vmin rgba(60,0,40,.25)}
+.word span{display:inline-block;opacity:0;filter:blur(3vmin);transform:translateY(8vh) scale(1.08)}
+.word.in span{animation:inL 1s cubic-bezier(.2,.8,.2,1) forwards}
+.word.out span{opacity:1;filter:none;transform:none;animation:outL .7s cubic-bezier(.6,0,.8,.2) forwards}
+@keyframes inL{to{opacity:1;filter:blur(0);transform:none}}
+@keyframes outL{to{opacity:0;filter:blur(3vmin);transform:translateY(-6vh) scale(.96)}}
+.sub{position:absolute;bottom:7vh;left:0;right:0;text-align:center;z-index:2;color:rgba(255,255,255,.75);font:500 min(2.4vw,3.2vh) "Manrope",sans-serif;letter-spacing:.4em;text-transform:uppercase}
+.fs{position:fixed;top:16px;right:16px;z-index:5;background:rgba(255,255,255,.15);color:#fff;border:0;padding:10px 16px;border-radius:99px;font:500 13px "Manrope",sans-serif;cursor:pointer;transition:opacity .5s}
+body.idle .fs{opacity:0}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg" id="bg"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div><div class="blob d"></div></div>
+  <div class="tunnel" id="tunnel">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g id="tri"></g></svg>
+  </div>
+  <div class="word" id="word"></div>
+  <div class="sub">Кафе · Більярд · Готель</div>
+</div>
+<button class="fs" id="fs">На весь екран</button>
+<script>
+// concentric triangles
+const g=document.getElementById("tri");let s="";
+for(let i=0;i<26;i++){const k=i*70;s+=`<polygon points="${800},${495-k*1.15} ${800+k*1.33},${495+k*.77} ${800-k*1.33},${495+k*.77}" fill="none" stroke="${i%2?'#8E1638':'#5A0A25'}" stroke-width="36"/>`}
+g.innerHTML=s;
+
+// sequence: word, scene ("sky" gradient or "tunnel"), hold ms
+const SEQ=[["SKY","sky",3200],["КАФЕ","sky",2200],["БІЛЬЯРД","sky",2200],["ГОТЕЛЬ","tunnel",2600]];
+const w=document.getElementById("word"),tun=document.getElementById("tunnel");
+let i=0;
+function fit(){w.style.fontSize="";const max=innerWidth*.86;const cur=w.scrollWidth;if(cur>max){w.style.fontSize=(parseFloat(getComputedStyle(w).fontSize)*max/cur)+"px"}}
+function render(t){w.className="word";w.innerHTML=[...t].map((c,k)=>`<span style="animation-delay:${k*70}ms">${c}</span>`).join("");fit();void w.offsetWidth;w.classList.add("in")}
+addEventListener("resize",fit);
+function step(){
+  const [t,scene,hold]=SEQ[i];
+  tun.classList.toggle("on",scene==="tunnel");
+  render(t);
+  setTimeout(()=>{w.classList.remove("in");w.classList.add("out");
+    setTimeout(()=>{i=(i+1)%SEQ.length;step()},750)},hold+t.length*70);
+}
+document.fonts.ready.then(step);
+
+document.getElementById("fs").onclick=()=>document.documentElement.requestFullscreen?.();
+let to;const wake=()=>{document.body.classList.remove("idle");clearTimeout(to);to=setTimeout(()=>document.body.classList.add("idle"),2500)};
+addEventListener("mousemove",wake);wake();
+</script>
+</body>
+</html>
