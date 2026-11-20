@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SKY — кафе, більярд, готель · Жашків</title>
-<meta name="description" content="SKY у Жашкові, вул. Одеська, 50: затишні номери, кафе з авторськими коктейлями, більярд і мангальна зона. Бронювання: +380 75 992 11 13.">
+<meta name="description" content="SKY у Жашкові, вул. Одеська, 50: затишні номери, кафе з авторськими коктейлями, більярд і мангальна зона. Бронювання: бар +380 75 992 11 13, готель +380 75 992 11 15.">
 <meta property="og:title" content="SKY — кафе, більярд, готель">
 <meta property="og:description" content="Затишні номери, авторські коктейлі та більярд у Жашкові.">
 <meta property="og:image" content="img/facade.jpg">
@@ -59,8 +59,14 @@ section{padding:clamp(80px,12vw,160px) 0}
 .btn-light{background:#fff;color:var(--plum)}
 .btn-wine{background:var(--wine);color:#fff}
 .btn-ghost{border:1px solid rgba(255,255,255,.5);color:#fff}
-.nav .btn{padding:11px 20px;font-size:14px}
+.btn-ghost-dark{border:1px solid var(--wine);color:var(--wine)}
+.btn-ghost-dark:hover{background:rgba(142,22,56,.07)}
+.nav-menu{display:contents}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav .btn{padding:10px 16px;font-size:13.5px;white-space:nowrap}
 .nav.solid .btn-light{background:var(--wine);color:#fff}
+.nav.solid .btn-ghost{border-color:var(--wine);color:var(--wine)}
+.nav.solid .btn-ghost:hover{background:rgba(142,22,56,.07)}
 .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
 .burger span{display:block;width:22px;height:2px;margin:5px auto;background:#fff;border-radius:2px;transition:.3s}
 .nav.solid .burger span{background:var(--ink)}
@@ -218,6 +224,11 @@ section{padding:clamp(80px,12vw,160px) 0}
 .ccard:hover{border-color:var(--wine)}
 .ccard small{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:12px}
 .ccard b{font-size:21px;font-weight:500}
+.cphone{display:block;transition:color .25s}
+.cphone:hover{color:var(--wine)}
+.cphone+.cphone{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.cphone span{display:block;color:var(--muted);font-size:14px;margin-top:2px;font-weight:500}
+.contact-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
 footer{border-top:1px solid var(--line);padding:36px 0;font-size:14px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 footer .logo{color:var(--wine);font-size:20px}
@@ -228,14 +239,21 @@ footer .logo{color:var(--wine);font-size:20px}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
 /* MOBILE */
-@media (max-width:960px){
-  .nav ul,.nav .btn{display:none}
+@media (max-width:1100px){
+  .nav-menu{display:none}
   .burger{display:block}
   .nav.open{background:var(--bg)}
   .nav.open .logo{color:var(--wine)}
   .nav.open .burger span{background:var(--ink)}
-  .nav.open ul{display:flex;flex-direction:column;position:absolute;top:76px;left:0;right:0;background:var(--bg);padding:12px 24px 28px;gap:4px;box-shadow:0 20px 30px rgba(0,0,0,.08)}
+  .nav.open .nav-menu{display:flex;flex-direction:column;gap:18px;position:absolute;top:76px;left:0;right:0;background:var(--bg);padding:12px 24px 28px;box-shadow:0 20px 30px rgba(0,0,0,.08)}
+  .nav.open ul{display:flex;flex-direction:column;gap:4px}
   .nav.open ul a{color:var(--ink);font-size:20px;display:block;padding:10px 0}
+  .nav.open .nav-actions{display:flex;flex-wrap:wrap;gap:10px}
+  .nav.open .nav-actions .btn{flex:1 1 auto;justify-content:center;padding:12px 18px;font-size:14px}
+  .nav.open .nav-actions .btn-ghost{border-color:var(--wine);color:var(--wine)}
+  .nav.open .nav-actions .btn-light{background:var(--wine);color:#fff}
+}
+@media (max-width:960px){
   .pillars,.contact-cards{grid-template-columns:1fr}
   .rooms-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .rooms-gallery figure{aspect-ratio:3/4}
@@ -264,15 +282,20 @@ footer .logo{color:var(--wine);font-size:20px}
 <nav class="nav" id="nav">
   <div class="wrap">
     <a href="#top" class="logo" aria-label="SKY — на початок">SKY</a>
-    <ul id="navlinks">
-      <li><a href="#rooms">Номери</a></li>
-      <li><a href="#bar">Кафе</a></li>
-      <li><a href="#billiard">Більярд</a></li>
-      <li><a href="#menu">Меню</a></li>
-      <li><a href="#cocktails">Коктейлі</a></li>
-      <li><a href="#contact">Контакти</a></li>
-    </ul>
-    <a href="tel:+380759921113" class="btn btn-light">Забронювати</a>
+    <div class="nav-menu">
+      <ul id="navlinks">
+        <li><a href="#rooms">Номери</a></li>
+        <li><a href="#bar">Кафе</a></li>
+        <li><a href="#billiard">Більярд</a></li>
+        <li><a href="#menu">Меню</a></li>
+        <li><a href="#cocktails">Коктейлі</a></li>
+        <li><a href="#contact">Контакти</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="tel:+380759921113" class="btn btn-ghost">Забронювати столик</a>
+        <a href="tel:+380759921115" class="btn btn-light">Забронювати номер</a>
+      </div>
+    </div>
     <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -368,7 +391,7 @@ footer .logo{color:var(--wine);font-size:20px}
         <div class="amount">1 500<small>грн / доба</small></div>
       </article>
     </div>
-    <p class="note">Бронювання за телефоном <a href="tel:+380759921113" style="color:var(--wine);font-weight:600">+380 (75) 992 11 13</a></p>
+    <p class="note">Бронювання номера за телефоном <a href="tel:+380759921115" style="color:var(--wine);font-weight:600">+380 (75) 992 11 15</a></p>
   </div>
 </section>
 
@@ -465,9 +488,17 @@ footer .logo{color:var(--wine);font-size:20px}
     <h2 class="rv d1">SKY — смак, <em>який залишається</em></h2>
     <p class="lead rv d2">Бронюйте номер, столик чи більярд — просто зателефонуйте або напишіть нам.</p>
     <div class="contact-cards">
-      <a class="ccard rv" href="tel:+380759921113"><small>Телефон</small><b>+380 (75) 992 11 13</b></a>
+      <div class="ccard rv">
+        <small>Телефон</small>
+        <a class="cphone" href="tel:+380759921113"><b>+380 (75) 992 11 13</b><span>Бар</span></a>
+        <a class="cphone" href="tel:+380759921115"><b>+380 (75) 992 11 15</b><span>Готель</span></a>
+      </div>
       <a class="ccard rv d1" href="https://instagram.com/sky.zhashkiv" target="_blank" rel="noopener"><small>Instagram</small><b>@sky.zhashkiv</b></a>
       <a class="ccard rv d2" href="https://maps.app.goo.gl/LRhenruQiHgoX4rw8" target="_blank" rel="noopener"><small>Адреса</small><b>вул. Одеська</b><span style="display:block;color:var(--muted);font-size:14px;margin-top:4px">Жашків, Черкаська обл.</span></a>
+    </div>
+    <div class="contact-cta rv d2">
+      <a href="tel:+380759921113" class="btn btn-ghost-dark">Забронювати столик</a>
+      <a href="tel:+380759921115" class="btn btn-wine">Забронювати номер</a>
     </div>
   </div>
 </section>
